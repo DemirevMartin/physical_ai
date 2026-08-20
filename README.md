@@ -20,11 +20,17 @@ Validation split, interpolated AP at IoU >= 0.5:
 | early fusion (depth as a 4th input channel) | 0.310 | 0.059 |
 | cross-attention (separate encoders, learned fusion) | 0.182 | 0.019 |
 
+Validation is by held-out drive, not by random frames: KITTI frames come from
+continuous 10 Hz sequences, so a random split would put 592 validation frames
+within 0.1 s of a training frame. Splitting by drive puts zero.
+
 Zeroing the depth channel at inference collapses early fusion
-(Car 0.310 -> 0.027) but barely moves cross-attention (0.182 -> 0.156): the
-cross-attention model learned to ignore its LiDAR branch. Measuring its fusion
-weights directly confirms this, as their normalised entropy is 0.9871, i.e.
-effectively uniform.
+(Car 0.310 -> 0.027) but barely moves cross-attention (0.182 -> 0.156).
+Measuring the fusion weights directly points the same way: their normalised
+entropy is 0.987, so each image cell adds roughly the same average of LiDAR
+values. The attention does respond to depth content, but too weakly to affect
+the output.
+
 
 ## Data
 
@@ -49,8 +55,10 @@ They are needed to re-run anything that reads images or LiDAR. The committed
 checkpoints, logs and figures mean the results themselves can be inspected
 without downloading them.
 
-The depth cache (`processed/depth/`, ~7 GB) is also excluded because it is
-rebuilt from those two by the notebook, please check the section Running.
+`processed/` is committed except for `processed/depth/`: the checkpoints,
+training logs and the overfit-test result are in, while the ~7 GB depth cache
+is excluded because the notebook rebuilds it from the two archives above,
+please check the section Running.
 
 **For the label and calibration formats, please read `devkit_object/readme.txt`**
 provided by the official KITTI documentation. It defines the 15 label columns, the
@@ -59,9 +67,16 @@ provided by the official KITTI documentation. It defines the 15 label columns, t
 
 ## Running
 
+Developed on Python 3.13 with a CUDA GPU.
+
 ```
-pip install numpy pandas matplotlib pillow torch torchvision pyarrow
+pip install numpy pandas matplotlib pillow pyarrow
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
 ```
+
+The second line installs a CUDA 12.8 build; a plain `pip install torch` gives a
+CPU-only build, which runs but will not use a GPU. Match the index URL to your
+driver's CUDA version.
 
 In `assignment.ipynb`, set `RUN_PRECOMPUTE = True` and run that cell once to
 build the depth cache (~7 GB, ~15 min), then set it back to `False`. The
@@ -71,3 +86,12 @@ retraining.
 Both `RUN_PRECOMPUTE` and `RUN_TRAINING` default to `False`, so running all
 cells never retrains or overwrites the committed checkpoints. Set
 `RUN_TRAINING = True` only to retrain from scratch.
+
+## Data licence and attribution
+
+The KITTI files redistributed here (labels, calibration, devkit) are from the
+KITTI Vision Benchmark Suite and are licensed CC BY-NC-SA 3.0. Non-commercial
+use only.
+
+Geiger, Lenz and Urtasun, *Are We Ready for Autonomous Driving? The KITTI
+Vision Benchmark Suite*, CVPR 2012.
