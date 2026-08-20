@@ -230,14 +230,13 @@ __marimo__/
 # Raw KITTI downloads (~40 GB of zips)
 *.zip
 
-# Extracted raw data. Only the two huge modalities are excluded: images
-# (12 GB) and point clouds (14 GB). The small text annotations ARE committed --
-# labels (4 MB) and training calibration (11.5 MB) are what every result
-# depends on, and they compress to ~2 MB together. The testing calibration is
-# excluded: the test set has no public labels and no notebook reads it.
+# Extracted raw data. Only the two huge binary modalities are excluded: the
+# images (12 GB) and the point clouds (13.6 GB of float32, which barely
+# compresses). Everything textual is committed in full -- all labels and all
+# calibration, training and testing -- because it is small and it is what
+# every result depends on.
 data_object_image_2/
 data_object_velodyne/
-data_object_calib/testing/
 training/velodyne/
 
 # Regenerable depth cache (~6.8 GB, rebuilt by the RUN_PRECOMPUTE cell)
@@ -246,10 +245,12 @@ processed/depth/
 # Local timestamped backups of checkpoints
 processed/_backup_*/
 
-# Superseded exploratory notebook and its checkpoint
+# Superseded exploratory notebook (task.ipynb) and its artefacts: no notebook
+# in this repository reads them.
 task.ipynb
 processed/detector.pt
 processed/training_log.txt
+processed/*.parquet
 
 # Environment
 .venv/

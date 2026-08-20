@@ -28,20 +28,26 @@ effectively uniform.
 
 ## Data
 
-**Committed here:** the annotations and everything derived from them:
-labels (`training/label_2/`), calibration (`data_object_calib/training/calib/`),
-the KITTI devkit, the trained checkpoints, and the figures. These are small
-text and binary files, ~50 MB in total, and every result depends on them.
+**Committed here:** all of the KITTI text data, namely the labels
+(`training/label_2/`) and the calibration (`data_object_calib/`, both the
+training and testing splits), together with the KITTI devkit, the trained
+checkpoints and the figures. Roughly 60 MB in total, and every result in the
+notebooks depends on it.
 
-**Not committed:** the two large sensor modalities, ~26 GB together. Download
-them from
+**Not committed:** the two large binary modalities, ~26 GB together. GitHub
+caps a repository at 5 GB, and the point clouds are float32 data that barely
+compresses. Download them from
 <https://www.cvlibs.net/datasets/kitti/eval_object.php?obj_benchmark=3d>
 (registration required) and extract into the project root:
 
 ```
 data_object_image_2.zip   ->  data_object_image_2/training/image_2/   (12 GB)
-data_object_velodyne.zip  ->  training/velodyne/                      (14 GB)
+data_object_velodyne.zip  ->  training/velodyne/                      (13.6 GB)
 ```
+
+They are needed to re-run anything that reads images or LiDAR. The committed
+checkpoints, logs and figures mean the results themselves can be inspected
+without downloading them.
 
 The depth cache (`processed/depth/`, ~7 GB) is also excluded because it is
 rebuilt from those two by the notebook, please check the section Running.
