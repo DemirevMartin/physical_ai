@@ -1,0 +1,12 @@
+epoch  1/12  train 0.2906  val 0.3011  <- saved
+epoch  2/12  train 0.2273  val 0.2715  <- saved
+epoch  3/12  train 0.2031  val 0.2653  <- saved
+epoch  4/12  train 0.1864  val 0.2555  <- saved
+epoch  5/12  train 0.1746  val 0.2445  <- saved
+epoch  6/12  train 0.1622  val 0.2402  <- saved
+epoch  7/12  train 0.1510  val 0.2682
+epoch  8/12  train 0.1418  val 0.2615
+epoch  9/12  train 0.1329  val 0.2645
+epoch 10/12  train 0.1220  val 0.2659
+epoch 11/12  train 0.1121  val 0.2797
+epoch 12/12  train 0.1032  val 0.2825

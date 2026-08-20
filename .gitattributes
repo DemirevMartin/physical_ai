@@ -1,0 +1,24 @@
+# Treat notebooks as text so diffs are readable, but do not let GitHub's
+# language stats be dominated by them, and do not attempt line-ending
+# conversion inside the embedded base64 image data.
+*.ipynb text eol=lf linguist-documentation
+
+# Binary artefacts: never munge line endings, never try to diff them.
+*.pt      binary
+*.parquet binary
+*.npy     binary
+*.bin     binary
+*.png     binary
+*.zip     binary
+
+# Generated figures should not count towards the repository's language stats.
+figures/** linguist-generated
+
+# The KITTI devkit is third-party code, not ours: exclude it from language
+# stats so the repo reads as a Python project.
+devkit_object/** linguist-vendored
+
+# Plain text with LF endings.
+*.txt  text eol=lf
+*.md   text eol=lf
+*.py   text eol=lf

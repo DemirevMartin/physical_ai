@@ -216,3 +216,37 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---------------------------------------------------------------------------
+# KITTI dataset and derived caches
+#
+# The raw dataset is ~32 GB and is not redistributed here: it is downloaded
+# from cvlibs.net (registration required, no approval wait). The depth cache is
+# rebuilt from it by assignment.ipynb. Trained checkpoints and training logs
+# ARE committed (a few MB) so the results can be reproduced without an hour of
+# GPU time per model.
+# ---------------------------------------------------------------------------
+
+# Raw KITTI downloads (~40 GB of zips)
+*.zip
+
+# Extracted raw data
+data_object_image_2/
+data_object_calib/
+data_object_velodyne/
+training/velodyne/
+training/label_2/
+
+# Regenerable depth cache (~6.8 GB, rebuilt by the RUN_PRECOMPUTE cell)
+processed/depth/
+
+# Local timestamped backups of checkpoints
+processed/_backup_*/
+
+# Superseded exploratory notebook and its checkpoint
+task.ipynb
+processed/detector.pt
+processed/training_log.txt
+
+# Environment
+.venv/
