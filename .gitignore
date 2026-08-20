@@ -230,10 +230,13 @@ __marimo__/
 # Raw KITTI downloads (~40 GB of zips)
 *.zip
 
-# Extracted raw data
+# Extracted raw data. Calibration is the exception: it is plain text (11.5 MB,
+# ~0.4 MB compressed) and every geometric step depends on it, so the training
+# half is committed. The testing half is not -- the test set has no public
+# labels and no notebook reads it.
 data_object_image_2/
-data_object_calib/
 data_object_velodyne/
+data_object_calib/testing/
 training/velodyne/
 training/label_2/
 
