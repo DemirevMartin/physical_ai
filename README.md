@@ -23,27 +23,31 @@ Validation split, interpolated AP at IoU >= 0.5:
 Zeroing the depth channel at inference collapses early fusion
 (Car 0.310 -> 0.027) but barely moves cross-attention (0.182 -> 0.156): the
 cross-attention model learned to ignore its LiDAR branch. Measuring its fusion
-weights directly confirms this -- their normalised entropy is 0.9871, i.e.
+weights directly confirms this, as their normalised entropy is 0.9871, i.e.
 effectively uniform.
 
 ## Data
 
-The dataset is not in this repository (~32 GB). Download the object-detection
-files from
+**Committed here:** the annotations and everything derived from them:
+labels (`training/label_2/`), calibration (`data_object_calib/training/calib/`),
+the KITTI devkit, the trained checkpoints, and the figures. These are small
+text and binary files, ~50 MB in total, and every result depends on them.
+
+**Not committed:** the two large sensor modalities, ~26 GB together. Download
+them from
 <https://www.cvlibs.net/datasets/kitti/eval_object.php?obj_benchmark=3d>
 (registration required) and extract into the project root:
 
 ```
-data_object_image_2.zip   ->  data_object_image_2/training/image_2/
-data_object_velodyne.zip  ->  training/velodyne/
-data_object_label_2.zip   ->  training/label_2/
+data_object_image_2.zip   ->  data_object_image_2/training/image_2/   (12 GB)
+data_object_velodyne.zip  ->  training/velodyne/                      (14 GB)
 ```
 
-Calibration (`data_object_calib/training/calib/`) and the KITTI devkit are
-committed, since every geometric step depends on them and both are small.
+The depth cache (`processed/depth/`, ~7 GB) is also excluded because it is
+rebuilt from those two by the notebook, please check the section Running.
 
-**For the label and calibration formats, read `devkit_object/readme.txt`** --
-the official KITTI documentation. It defines the 15 label columns, the
+**For the label and calibration formats, please read `devkit_object/readme.txt`**
+provided by the official KITTI documentation. It defines the 15 label columns, the
 `DontCare` regions, the difficulty criteria, and the projection chain
 `P2 * R0_rect * Tr_velo_to_cam` that this project implements and verifies.
 
@@ -60,5 +64,4 @@ retraining.
 
 Both `RUN_PRECOMPUTE` and `RUN_TRAINING` default to `False`, so running all
 cells never retrains or overwrites the committed checkpoints. Set
-`RUN_TRAINING = True` only to retrain from scratch (~45 min per model on a
-4 GB GPU).
+`RUN_TRAINING = True` only to retrain from scratch.

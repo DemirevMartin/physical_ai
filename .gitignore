@@ -230,15 +230,15 @@ __marimo__/
 # Raw KITTI downloads (~40 GB of zips)
 *.zip
 
-# Extracted raw data. Calibration is the exception: it is plain text (11.5 MB,
-# ~0.4 MB compressed) and every geometric step depends on it, so the training
-# half is committed. The testing half is not -- the test set has no public
-# labels and no notebook reads it.
+# Extracted raw data. Only the two huge modalities are excluded: images
+# (12 GB) and point clouds (14 GB). The small text annotations ARE committed --
+# labels (4 MB) and training calibration (11.5 MB) are what every result
+# depends on, and they compress to ~2 MB together. The testing calibration is
+# excluded: the test set has no public labels and no notebook reads it.
 data_object_image_2/
 data_object_velodyne/
 data_object_calib/testing/
 training/velodyne/
-training/label_2/
 
 # Regenerable depth cache (~6.8 GB, rebuilt by the RUN_PRECOMPUTE cell)
 processed/depth/
